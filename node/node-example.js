@@ -2,7 +2,7 @@ const axios = require('axios');
 const { ClientCredentials } = require('simple-oauth2');
 
 // Can be any API url from https://www.mongodb.com/docs/atlas/reference/api-resources-spec/v2/
-const apiURL = 'https://cloud.mongodb.com/api/atlas/v2/';
+const apiURL = '/api/atlas/v2/';
 
 const { MONGODB_ATLAS_CLIENT_ID, MONGODB_ATLAS_CLIENT_SECRET, MONGODB_ATLAS_BASE_URL} = process.env;
 
@@ -20,11 +20,9 @@ const oauth2Config = {
   },
   auth: {
     tokenHost: baseUrl,
-    tokenPath: '/oauth/token',
+    tokenPath: '/api/oauth/token',
   },
 };
-
-console.log(oauth2Config);
 
 // Create OAuth2 Client
 const oauth2Client = new ClientCredentials(oauth2Config);
@@ -34,20 +32,21 @@ async function fetchWithOAuth2() {
     // Retrieve access token
     const tokenParams = {
     };
-    const accessToken = await oauth2Client.getToken(tokenParams);
-
+    const tokenResponse = await oauth2Client.getToken(tokenParams);
+    const accessToken = tokenResponse.token.access_token;
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/vnd.atlas.2023-01-01+json',
+      "User-Agent": "SA-Auth-Example"
+    }
     // Make API Request
-    const response = await axios.get(apiURL, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/vnd.atlas.2023-01-01+json',
-        "User-Agent": "SA-Auth-Example"
-      },
+    const response = await axios.get(baseUrl + apiURL, {
+      headers: headers
     });
 
     console.log('Response data:', response.data);
   } catch (error) {
-    console.error('Error during request:', error);
+    console.error('Error during request:', error.message);
   }
 }
 

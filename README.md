@@ -24,7 +24,7 @@ To run the Python example, execute:
 ```bash
 cd python
 pip install -r requirements.txt
-python ./request.py
+python ./python-example.py
 ```
 
 ### Node.js Example
