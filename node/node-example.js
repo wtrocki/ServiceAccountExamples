@@ -37,12 +37,13 @@ async function fetchWithOAuth2() {
     const accessToken = await oauth2Client.getToken(tokenParams);
 
     // Make API Request
-    // const response = await axios.get(apiURL, {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //     Accept: 'application/vnd.atlas.2023-01-01+json'
-    //   },
-    // });
+    const response = await axios.get(apiURL, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/vnd.atlas.2023-01-01+json',
+        "User-Agent": "SA-Auth-Example"
+      },
+    });
 
     console.log('Response data:', response.data);
   } catch (error) {
