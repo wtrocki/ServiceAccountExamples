@@ -1,6 +1,10 @@
 # MongoDB Atlas Administration API — Service Account Authentication Demo
 
 This repository demonstrates how to call the [MongoDB Atlas Administration API](https://www.mongodb.com/docs/atlas/api/) using Service Account authentication. 
+Service Accounts provide a new way to authenticate to Atlas using OAuth 2.0 with the Client Credentials flow. 
+A Service Account provides a client ID and client secret, which are used to generate access tokens for performing API requests. 
+Access tokens are currently valid for one hour. Service Accounts are created within Atlas organization and can be configured to access multiple projects within that organization.
+
 
 ## Setup
 
