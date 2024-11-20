@@ -52,4 +52,3 @@ go run ./sdk-example.go
 
 Examples are not a supported MongoDB product and serve informational purpose only.
 External libraries used in the examples are not officially maintained by MongoDB.
-Do not use in production.
