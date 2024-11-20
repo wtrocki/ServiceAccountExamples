@@ -34,7 +34,7 @@ To run the Node.js example, execute:
 ```bash
 cd node
 npm install
-node ./request.js
+node ./node-example.js
 ```
 
 ### Atlas SDK Golang Example
