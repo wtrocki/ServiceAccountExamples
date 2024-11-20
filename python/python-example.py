@@ -1,5 +1,7 @@
 import os
 from requests_oauthlib import OAuth2Session
+from oauthlib.oauth2 import BackendApplicationClient
+from requests.auth import HTTPBasicAuth
 import requests
 
 # Constants
@@ -10,14 +12,16 @@ client_secret = os.environ["MONGODB_ATLAS_CLIENT_SECRET"]
 base_url = os.getenv("MONGODB_ATLAS_BASE_URL", "https://cloud.mongodb.com")
 
 def get_access_token():
-    oauth = OAuth2Session(client_id=client_id)
+    # Use BackendApplicationClient for the client credentials grant
+    client = BackendApplicationClient(client_id=client_id)
+    oauth = OAuth2Session(client=client)
+
+    # Prepare Basic Auth credentials
+    auth = HTTPBasicAuth(client_id, client_secret)
     token_url = f"{base_url}{token_path}"
-    token = oauth.fetch_token(
-        token_url=token_url,
-        client_id=client_id,
-        client_secret=client_secret,
-        grant_type="client_credentials"
-    )
+
+    # Fetch the token using the proper authentication
+    token = oauth.fetch_token(token_url=token_url, auth=auth)
     return token['access_token']
 
 def fetch_data():
